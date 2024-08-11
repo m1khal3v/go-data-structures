@@ -3,7 +3,7 @@ package spinlock
 import "sync/atomic"
 
 type SpinLock struct {
-	atomic.Uintptr
+	atomic.Uint32
 }
 
 func (lock *SpinLock) TryLock() bool {
