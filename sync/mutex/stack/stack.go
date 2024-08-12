@@ -1,13 +1,16 @@
 package stack
 
+import "sync"
+
 type element[T any] struct {
 	value T
 	next  *element[T]
 }
 
 type Stack[T any] struct {
-	head *element[T]
-	size uint64
+	mutex sync.Mutex
+	head  *element[T]
+	size  uint64
 }
 
 func New[T any]() *Stack[T] {
@@ -15,11 +18,17 @@ func New[T any]() *Stack[T] {
 }
 
 func (stack *Stack[T]) Push(value T) {
+	stack.mutex.Lock()
+	defer stack.mutex.Unlock()
+
 	stack.head = &element[T]{value: value, next: stack.head}
 	stack.size++
 }
 
 func (stack *Stack[T]) Pop() (T, bool) {
+	stack.mutex.Lock()
+	defer stack.mutex.Unlock()
+
 	if stack.size == 0 {
 		return *new(T), false
 	}
