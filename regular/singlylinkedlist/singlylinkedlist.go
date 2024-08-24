@@ -1,4 +1,4 @@
-package linkedlist
+package singlylinkedlist
 
 import "slices"
 
@@ -375,4 +375,8 @@ func (list *SinglyLinkedList[T]) Values() []T {
 
 func (list *SinglyLinkedList[T]) Size() uint64 {
 	return list.size
+}
+
+func (list *SinglyLinkedList[T]) Sort(sort SortFunction[T]) {
+	mergeSort(&list.head, sort)
 }
