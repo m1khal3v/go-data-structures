@@ -87,7 +87,7 @@ func (list *SinglyLinkedList[T]) RPop() (T, bool) {
 	}
 
 	var tail *element[T]
-	for tail = list.head.next; tail != list.tail; tail = tail.next {
+	for tail = list.head; tail.next != list.tail; tail = tail.next {
 	}
 
 	tail.next = nil
