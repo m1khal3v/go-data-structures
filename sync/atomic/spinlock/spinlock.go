@@ -1,23 +1,28 @@
 package spinlock
 
-import "sync/atomic"
+import (
+	"runtime"
+	"sync/atomic"
+)
 
 type SpinLock struct {
-	atomic.Uint32
+	flag atomic.Uint32
 }
 
 func (lock *SpinLock) TryLock() bool {
-	return lock.CompareAndSwap(0, 1)
+	return lock.flag.CompareAndSwap(0, 1)
 }
 
 func (lock *SpinLock) Lock() {
 	for {
-		if lock.CompareAndSwap(0, 1) {
+		if lock.flag.CompareAndSwap(0, 1) {
 			return
 		}
+
+		runtime.Gosched()
 	}
 }
 
 func (lock *SpinLock) Unlock() {
-	lock.Store(0)
+	lock.flag.Store(0)
 }
