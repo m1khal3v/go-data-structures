@@ -14,7 +14,7 @@ type SinglyLinkedList[T comparable] struct {
 	size uint64
 }
 
-func NewSinglyLinkedList[T comparable](values ...T) *SinglyLinkedList[T] {
+func New[T comparable](values ...T) *SinglyLinkedList[T] {
 	list := &SinglyLinkedList[T]{}
 	list.Append(values...)
 
