@@ -1,7 +1,5 @@
 package doublylinkedlist
 
-import "sync"
-
 type SortFunction[T comparable] func(first, second T) bool
 
 func mergeSort[T comparable](headRef **element[T], sort SortFunction[T]) {
@@ -13,17 +11,8 @@ func mergeSort[T comparable](headRef **element[T], sort SortFunction[T]) {
 
 	first, second := halfDivide(head)
 
-	var wg sync.WaitGroup
-	wg.Add(2)
-	go func() {
-		defer wg.Done()
-		mergeSort(&first, sort)
-	}()
-	go func() {
-		defer wg.Done()
-		mergeSort(&second, sort)
-	}()
-	wg.Wait()
+	mergeSort(&first, sort)
+	mergeSort(&second, sort)
 
 	*headRef = sortAndMerge(first, second, sort)
 }
